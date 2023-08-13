@@ -9,12 +9,18 @@ import {
   Container,
 } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUserThunk } from 'redux/auth/authOperations';
+import { selectAuthentificated } from 'redux/auth/authSlice';
+import { Navigate } from 'react-router-dom';
 
 const LoginForm = () => {
   const [isErrorMail, setIsErrorMail] = useState(null);
   const [isErrorPass, setIsErrorPass] = useState(null);
 
+  const dispatch = useDispatch();
   const isButtonDisabled = isErrorMail || isErrorPass;
+  const authenticated = useSelector(selectAuthentificated);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -24,7 +30,7 @@ const LoginForm = () => {
       email: formData.get('email'),
       password: formData.get('password'),
     };
-    console.log('data:', data);
+    dispatch(loginUserThunk(data));
     e.target.reset();
   };
 
@@ -45,6 +51,8 @@ const LoginForm = () => {
       setIsErrorPass(true);
     }
   };
+
+  if (authenticated) return <Navigate to="/contacts" />;
 
   return (
     <>

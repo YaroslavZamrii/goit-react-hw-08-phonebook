@@ -9,12 +9,19 @@ import {
 } from '@mui/material';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUserThunk } from 'redux/auth/authOperations';
+import { selectAuthentificated } from 'redux/auth/authSlice';
+import { Navigate } from 'react-router-dom';
 
 export const RegisterForm = () => {
   const [isErrorName, setIsErrorName] = useState(false);
   const [isErrorMail, setIsErrorMail] = useState(false);
   const [isErrorPass, setIsErrorPass] = useState(false);
 
+  const dispatch = useDispatch();
+
+  const authenticated = useSelector(selectAuthentificated);
   const isButtonDisabled = isErrorName || isErrorMail || isErrorPass;
 
   const handleSubmit = e => {
@@ -26,8 +33,7 @@ export const RegisterForm = () => {
       email: formData.get('email'),
       password: formData.get('password'),
     };
-    console.log('data:', data);
-
+    dispatch(registerUserThunk(data));
     e.target.reset();
   };
 
@@ -55,6 +61,8 @@ export const RegisterForm = () => {
       setIsErrorPass(true);
     }
   };
+
+  if (authenticated) return <Navigate to="/contacts" />;
 
   return (
     <>
