@@ -82,12 +82,7 @@ export const RegisterForm = () => {
           <Typography component="h2" variant="h5">
             Register
           </Typography>
-          <Box
-            // component="form"
-            // onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
+          <Box noValidate sx={{ mt: 1 }}>
             <form onSubmit={handleSubmit}>
               <TextField
                 required
