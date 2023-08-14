@@ -1,14 +1,21 @@
+import { useDispatch, useSelector } from 'react-redux';
+
 import { Avatar, Button, TextField, Box, Typography } from '@mui/material';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import CloseIcon from '@mui/icons-material/Close';
-import { useDispatch, useSelector } from 'react-redux';
-import { addContactThunk } from 'redux/contacts/contactsOperations';
+import { updateContactThunk } from 'redux/contacts/contactsOperations';
+import { useState } from 'react';
 import { selectVisibleContacts } from 'redux/contacts/contactsSelectors';
 import { Report } from 'notiflix';
 
-export const ContactForm = ({ onToggleModal }) => {
-  const dispatch = useDispatch();
+export const ContactUpdate = ({
+  onToggleModal,
+  contact: { name: initialName, number: initialNumber, id },
+}) => {
+  const [name, setName] = useState(initialName);
+  const [number, setNumber] = useState(initialNumber);
   const visibleContacts = useSelector(selectVisibleContacts);
+  const dispatch = useDispatch();
 
   const formSubmit = e => {
     e.preventDefault();
@@ -23,7 +30,7 @@ export const ContactForm = ({ onToggleModal }) => {
         'OK'
       );
     } else {
-      dispatch(addContactThunk({ name, number }));
+      dispatch(updateContactThunk({ name, number, id }));
     }
 
     onToggleModal();
@@ -55,27 +62,31 @@ export const ContactForm = ({ onToggleModal }) => {
           <PersonAddAltIcon />
         </Avatar>
         <Typography component="h2" variant="h5">
-          Add contact
+          Update contact
         </Typography>
-
         <form onSubmit={formSubmit} autoComplete="off" sx={{ mt: 1 }}>
           <TextField
-            required
             margin="normal"
             fullWidth
             id="name"
             label="Name"
             name="name"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            minLength={2}
+            required
           />
 
           <TextField
-            required
             margin="normal"
             fullWidth
             id="number"
             name="number"
             label="Phone"
             type="tel"
+            value={number}
+            onChange={e => setNumber(e.target.value)}
+            required
           />
           <Button
             type="submit"
@@ -83,7 +94,7 @@ export const ContactForm = ({ onToggleModal }) => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Add contact
+            Save
           </Button>
         </form>
       </Box>

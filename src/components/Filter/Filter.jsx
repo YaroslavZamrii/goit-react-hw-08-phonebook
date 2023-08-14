@@ -1,8 +1,12 @@
 import { TextField } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { setFilter } from 'redux/contacts/filtersSlice';
 
 export const Filter = () => {
+  const dispatch = useDispatch();
+
   const handleChange = e => {
-    console.log('e.target.value:', e.target.value);
+    dispatch(setFilter(e.target.value.toLowerCase().trim()));
   };
 
   return (
@@ -12,15 +16,16 @@ export const Filter = () => {
         variant="filled"
         sx={{
           display: 'flex',
-          width: 0.5,
+          maxWidth: '805px',
           mt: 5,
-          mb: 2,
+          mb: 5,
           mx: 'auto',
           boxShadow: 1,
           color: '#1976d2',
           bgcolor: 'rgba(25, 118, 210, 0.1)',
         }}
         autoComplete="off"
+        fullWidth
         type="text"
         name="filter"
         pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"

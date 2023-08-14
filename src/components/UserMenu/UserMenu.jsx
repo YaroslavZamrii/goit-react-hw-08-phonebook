@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Box, Button, Typography } from '@mui/material';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { selectUserData } from 'redux/auth/authSlice';
+import { logoutUserThunk } from 'redux/auth/authOperations';
 
 export const UserMenu = () => {
   const dispatch = useDispatch();
@@ -19,14 +20,14 @@ export const UserMenu = () => {
     >
       <Box sx={{ display: 'flex' }}>
         <AccountBoxIcon sx={{ mr: 1 }} />
-        <Typography>Welcome, {userData.name}</Typography>
+        <Typography>{userData.email}</Typography>
       </Box>
 
       <Button
         component="button"
         type="button"
         variant="outline"
-        // onClick={() => dispatch(logOut())}
+        onClick={() => dispatch(logoutUserThunk())}
       >
         Logout
       </Button>
