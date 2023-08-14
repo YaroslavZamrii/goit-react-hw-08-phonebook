@@ -5,8 +5,8 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import CloseIcon from '@mui/icons-material/Close';
 import { updateContactThunk } from 'redux/contacts/contactsOperations';
 import { useState } from 'react';
-import { selectVisibleContacts } from 'redux/contacts/contactsSelectors';
 import { Report } from 'notiflix';
+import { selectUserContacts } from 'redux/contacts/contactsSlice';
 
 export const ContactUpdate = ({
   onToggleModal,
@@ -14,7 +14,7 @@ export const ContactUpdate = ({
 }) => {
   const [name, setName] = useState(initialName);
   const [number, setNumber] = useState(initialNumber);
-  const visibleContacts = useSelector(selectVisibleContacts);
+  const contacts = useSelector(selectUserContacts);
   const dispatch = useDispatch();
 
   const formSubmit = e => {
@@ -23,16 +23,24 @@ export const ContactUpdate = ({
     const name = form.elements.name.value;
     const number = form.elements.number.value;
 
-    if (visibleContacts.some(contact => contact.name === name)) {
-      Report.warning(
-        `${name}`,
-        'This user is already in the contact list.',
-        'OK'
-      );
-    } else {
-      dispatch(updateContactThunk({ name, number, id }));
+    if (contacts.length) {
+      const isInConntacts =
+        contacts.find(contact => contact.name === name && contact.id !== id) ||
+        contacts.find(
+          contact => contact.number === number && contact.id !== id
+        );
+
+      if (isInConntacts) {
+        Report.warning(
+          `${name}`,
+          'This user is already in the contact list.',
+          'OK'
+        );
+        return;
+      }
     }
 
+    dispatch(updateContactThunk({ name, number, id }));
     onToggleModal();
     form.reset();
   };

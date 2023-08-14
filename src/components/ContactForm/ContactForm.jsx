@@ -76,6 +76,8 @@ export const ContactForm = ({ onToggleModal }) => {
             name="number"
             label="Phone"
             type="tel"
+            pattern="[0-9]{10,15}"
+            title="Please enter a valid mobile phone number"
           />
           <Button
             type="submit"
