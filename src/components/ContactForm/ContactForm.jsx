@@ -1,10 +1,12 @@
-import { Avatar, Button, TextField, Box, Typography } from '@mui/material';
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-import CloseIcon from '@mui/icons-material/Close';
+import PropTypes from 'prop-types';
+import { Report } from 'notiflix';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContactThunk } from 'redux/contacts/contactsOperations';
 import { selectVisibleContacts } from 'redux/contacts/contactsSelectors';
-import { Report } from 'notiflix';
+
+import { Avatar, Button, TextField, Box, Typography } from '@mui/material';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import CloseIcon from '@mui/icons-material/Close';
 
 export const ContactForm = ({ onToggleModal }) => {
   const dispatch = useDispatch();
@@ -91,4 +93,8 @@ export const ContactForm = ({ onToggleModal }) => {
       </Box>
     </>
   );
+};
+
+ContactForm.propTypes = {
+  onToggleModal: PropTypes.func.isRequired,
 };

@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { Avatar, Button, TextField, Box, Typography } from '@mui/material';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
@@ -108,4 +109,13 @@ export const ContactUpdate = ({
       </Box>
     </>
   );
+};
+
+ContactUpdate.propTypes = {
+  onToggleModal: PropTypes.func.isRequired,
+  contact: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    number: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+  }).isRequired,
 };

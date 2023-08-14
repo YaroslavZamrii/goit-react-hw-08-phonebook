@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 import {
   ListItem,
@@ -96,6 +97,12 @@ const ContactItem = ({ id, name, number }) => {
       )}
     </>
   );
+};
+
+ContactItem.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  number: PropTypes.string.isRequired,
 };
 
 export default ContactItem;
