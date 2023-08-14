@@ -1,9 +1,6 @@
 import { Box, List, Typography } from '@mui/material';
 import ContactItem from 'components/ContactItem/ContactItem';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectAuthentificated } from 'redux/auth/authSlice';
-import { requestContactsThunk } from 'redux/contacts/contactsOperations';
+import { useSelector } from 'react-redux';
 import { selectVisibleContacts } from 'redux/contacts/contactsSelectors';
 import {
   selectContactsError,
@@ -11,18 +8,10 @@ import {
 } from 'redux/contacts/contactsSlice';
 
 const ContactList = () => {
-  const dispatch = useDispatch();
   const contacts = useSelector(selectVisibleContacts);
   const isLoading = useSelector(selectContactsIsLoading);
   const error = useSelector(selectContactsError);
-  const authentificated = useSelector(selectAuthentificated);
   const isMatchingContacts = contacts.length === 0 && !isLoading && !error;
-
-  useEffect(() => {
-    if (!authentificated) return;
-
-    dispatch(requestContactsThunk());
-  }, [authentificated, dispatch]);
 
   return (
     <Box sx={{ flexGrow: 1, maxWidth: '800px', m: '0 auto' }}>
